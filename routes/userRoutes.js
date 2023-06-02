@@ -23,4 +23,30 @@ router.post("/create", async (req, res) => {
   }
 });
 
+router.patch("/transform/:id", async (req, res) => {
+  try {
+    const { firstName, lastName, age, email } = req.body;
+    const transformedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        firstName,
+        lastName,
+        age,
+        email,
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json("User not found");
+    }
+
+    return res
+      .status(200)
+      .json({ message: "User transformed", transformedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Error" });
+  }
+});
+
 export default router;
