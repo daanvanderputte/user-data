@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/user.js";
+import UserTransformed from "../models/user-transformed.js";
 
 const router = express.Router();
 
@@ -47,10 +48,12 @@ router.patch("/update/:id", async (req, res) => {
   }
 });
 
-router.patch("/transform/:id", async (req, res) => {
+// I am not sure how to put the logic in this CRUD operation
+
+router.patch("/transform", async (req, res) => {
   try {
     const { name, age, email, birthYear } = req.body;
-    const transformedUser = await User.findByIdAndUpdate(
+    const transformedUser = await UserTransformed.findByIdAndUpdate(
       req.params.id,
       {
         name,
