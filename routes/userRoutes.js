@@ -41,38 +41,36 @@ router.patch("/update/:id", async (req, res) => {
       return res.status(404).json("User not found");
     }
 
-    return res
-      .status(200)
-      .json({ message: "User updated", updatedUser });
+    return res.status(200).json({ message: "User updated", updatedUser });
   } catch (error) {
     return res.status(500).json({ message: "Error" });
   }
 });
 
 router.patch("/transform/:id", async (req, res) => {
-    try {
-      const { firstName, lastName, age, email } = req.body;
-      const transformedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          firstName,
-          lastName,
-          age,
-          email,
-        },
-        { new: true }
-      );
-  
-      if (!transformedUser) {
-        return res.status(404).json("User not found");
-      }
-  
-      return res
-        .status(200)
-        .json({ message: "User transformed", transformedUser });
-    } catch (error) {
-      return res.status(500).json({ message: "Error" });
+  try {
+    const { name, age, email, birthYear } = req.body;
+    const transformedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        age,
+        email,
+        birthYear,
+      },
+      { new: true }
+    );
+
+    if (!transformedUser) {
+      return res.status(404).json("User not found");
     }
-  });
+
+    return res
+      .status(200)
+      .json({ message: "User transformed", transformedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Error" });
+  }
+});
 
 export default router;
